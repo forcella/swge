@@ -10,17 +10,12 @@
 	<h:form id="menu">
 
 
-		<p:menubar>
-			<p:menuitem value="Login" update="conteudo" ajax="true"
-				action="#{beanLoadPage.loginPage}">
-
-			</p:menuitem>
-		</p:menubar>
+		<p:menubar model="#{beanMenuView.model}"></p:menubar>
 
 		
 	</h:form>
 	<h:form id="conteudo">
-		<ui:include id="inconteudo" src="#{beanLoadPage.page}">
+		<ui:include id="inconteudo" src="#{beanPageLoader.login}">
 		</ui:include>
 	</h:form>
 	
