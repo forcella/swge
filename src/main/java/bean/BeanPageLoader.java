@@ -10,12 +10,18 @@ public class BeanPageLoader {
 	private String page;
 	private final String index;
 	private final String login;
-	
+	private final String produto;
+	private final String pdv;
+	private final String caixa;
 	
 	public BeanPageLoader() {
 		page ="";
 		index = "index.xhtml";
 		login = "login.xhtml";
+		produto = "view/produto.xhtml";
+		pdv = "view/pdv.xhtml";
+		caixa = "view/caixa.xhtml";
+		
 	}
 
 
@@ -29,13 +35,28 @@ public class BeanPageLoader {
 	}
 
 
-	public String getIndex() {
-		return index;
+	public void loadIndex() {
+		page = index;
 	}
 
 
-	public String getLogin() {
-		return login;
+	public void loadLogin() {
+		page = login;
+	}
+
+
+	public void loadProduto() {
+		page = produto;
+	}
+
+
+	public void loadPdv() {
+		page = pdv;
+	}
+
+
+	public void loadCaixa() {
+		page = caixa;
 	}
 
 }

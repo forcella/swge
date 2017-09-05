@@ -12,7 +12,7 @@ import org.primefaces.model.menu.MenuModel;
 public class BeanMenuView {
 
 	private MenuModel model;
-	 
+	
     @PostConstruct
     public void init() {
         model = new DefaultMenuModel();
@@ -59,7 +59,7 @@ public class BeanMenuView {
         
         item = new DefaultMenuItem("Venda");
         item.setIcon("ui-icon-disk");
-        item.setCommand("#{menuView.save}");
+        item.setCommand("#{beanPageLoader.loadPdv}");
         item.setAjax(true);
         item.setUpdate("conteudo");
         pdv.addElement(item);
@@ -68,7 +68,21 @@ public class BeanMenuView {
         
         DefaultSubMenu gerenteMenu = new DefaultSubMenu("Gerente");
         
-        item = new DefaultMenuItem("Cadastro");
+        item = new DefaultMenuItem("Produto");
+        item.setIcon("ui-icon-disk");
+        item.setCommand("#{menuView.save}");
+        item.setAjax(true);
+        item.setUpdate("conteudo");
+        gerenteMenu.addElement(item);
+        
+        item = new DefaultMenuItem("Relatórios");
+        item.setIcon("ui-icon-disk");
+        item.setCommand("#{menuView.save}");
+        item.setAjax(true);
+        item.setUpdate("conteudo");
+        gerenteMenu.addElement(item);
+        
+        item = new DefaultMenuItem("Funcionário");
         item.setIcon("ui-icon-disk");
         item.setCommand("#{menuView.save}");
         item.setAjax(true);
