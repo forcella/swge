@@ -4,7 +4,7 @@ import model.TipoUnidade;
 
 public class DaoTipoUnidade extends DaoGenerica<TipoUnidade,Long>{
 
-	protected DaoTipoUnidade() {
+	public DaoTipoUnidade() {
 		super(TipoUnidade.class); 
 	}
 

@@ -13,6 +13,11 @@ public class BeanPageLoader {
 	private final String produto;
 	private final String pdv;
 	private final String caixa;
+	private final String cadastroProduto;
+	private final String cadastroFuncionario;
+	private final String cadastroCliente;
+	private final String cadastroCategoria;
+	
 	
 	public BeanPageLoader() {
 		page ="";
@@ -21,7 +26,10 @@ public class BeanPageLoader {
 		produto = "view/produto.xhtml";
 		pdv = "view/pdv.xhtml";
 		caixa = "view/caixa.xhtml";
-		
+		cadastroProduto = "view/produto/cadastro.xhtml";
+		cadastroFuncionario = "view/funcionario/cadastro.xhtml";
+		cadastroCliente = "view/cliente/cadastro.xhtml";
+		cadastroCategoria = "view/categoria/cadastro.xhtml";
 	}
 
 
@@ -53,10 +61,30 @@ public class BeanPageLoader {
 	public void loadPdv() {
 		page = pdv;
 	}
-
-
+	
+	public void loadCadastroProduto(){
+		page = cadastroProduto;
+	}
+	
+	public void loadCadastroFuncionario(){
+		page = cadastroFuncionario;
+	}
+	
+	public void loadCadastroCliente(){
+		page = cadastroCliente;
+	}
+	
+	public void loadCadastroCategoria(){
+		page = cadastroCategoria;
+	}
+	
 	public void loadCaixa() {
 		page = caixa;
+	}
+
+
+	public String getCadastroCategoria() {
+		return cadastroCategoria;
 	}
 
 }

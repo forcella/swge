@@ -1,37 +1,45 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-
 <h:head>
-	
-</h:head> 
+	<style>
+body {
+	background-color: #708090
+}
+
+.titulo {
+	text-align: center;
+	font-size: 40px;
+}
+</style>
+</h:head>
 <body>
+	<p:outputLabel value="SWGE" />
+	<br></br>
+	<p:outputLabel value="SISTEMA DE GERENCIAMENTO DE ESTEBELECIMENTOS" />
 	<h:form>
-    <p:panel id="panel" header="Logar">
- 
-        <p:messages id="msgs" />
- 
-        <h:panelGrid columns="3" cellpadding="5">
-            <p:outputLabel for="login" value="Login:" />
-            <p:inputText id="login"  required="true" label="Login">
-               
-            </p:inputText>
-            <p:message for="login" display="icon" />
- 
-            <p:outputLabel for="email" value="Email:" />
-            <p:inputText id="email"  label="Email" required="true">
-                
-            </p:inputText>
-            <p:message for="email" id="msgLogin" display="icon" />
- 
-        </h:panelGrid>
- 
-        <p:commandButton value="Entrar" action="#{beanLogin.logar}" update="panel" icon="ui-icon-check" />
-        <p:commandButton value="Limpar" action="#{beanLogin.deslogar}"  update="panel" icon="ui-icon-check" />
-    </p:panel>
-</h:form>
+		<p:panel id="panel" header="Logar" style="width:300px">
+			<p:messages id="msgs" />
+			<h:panelGrid columns="3" cellpadding="5">
+				<p:outputLabel for="login" value="Login:" />
+				<p:inputText id="login" required="true" label="Login"
+					value="#{beanLogin.usuario.login}">
+				</p:inputText>
+				<p:message for="login" display="icon" />
+				<p:outputLabel for="senha" value="Senha:" />
+				<p:inputText id="senha" label="Senha" required="true"
+					value="#{beanLogin.usuario.senha}">
+				</p:inputText>
+				<p:message for="senha" id="msgLogin" display="icon" />
+			</h:panelGrid>
+			<p:commandButton value="Entrar" action="#{beanLogin.logar}"
+				update="panel" icon="ui-icon-check" />
+			<p:commandButton value="Limpar" action="#{beanLogin.deslogar}"
+				update="panel" icon="ui-icon-check" />
+		</p:panel>
+	</h:form>
 </body>
 </html>

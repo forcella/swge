@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -24,24 +25,19 @@ public class Produto implements Serializable{
 	@ManyToOne
 	private TipoUnidade tipoUnidade;
 	private Double tamanhoDaUnidade;
-	
-	
-	@ManyToOne(cascade={CascadeType.ALL})
-	@JoinColumn(name="id_igrediente")
-	private Produto igrediente;
-
-	@OneToMany(mappedBy="igrediente")
-	private List<Produto> igredientes;
-	
-	public List<Produto> getIgredientes() {
-		return igredientes;
-	}
-	public void setIgredientes(List<Produto> igredientes) {
-		this.igredientes = igredientes;
-	}
 	private Boolean comercializavel;
 	private Double valorVenda;
 	private Boolean maiorIdade;
+	
+	@ManyToMany
+	private List<Produto> ingredientes;
+	public List<Produto> getIngredientes() {
+		return ingredientes;
+	}
+	public void setIngredientes(List<Produto> ingredientes) {
+		this.ingredientes = ingredientes;
+	}
+	
 	
 	public Long getId() {
 		return id;
@@ -94,15 +90,5 @@ public class Produto implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	public Produto getIgrediente() {
-		return igrediente;
-	}
-	public void setIgrediente(Produto igrediente) {
-		this.igrediente = igrediente;
-	}
-	
-	
-	
-	
 
 }

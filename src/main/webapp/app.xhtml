@@ -5,15 +5,39 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
-<h:head></h:head>
-<body>
-	<h:form id="menu">
-
-
-		<p:menubar model="#{beanMenuView.model}"></p:menubar>
-
+<h:head>
+	<style>
+		#menu{
+			border:none;
+			font-size:30dp;
+		}
+		body{
+			background-color: #778899;
+		}
 		
-	</h:form>
+		#conteudo{
+			margin-top:20px;
+		}
+		
+	
+	</style>
+</h:head>
+<body>
+	
+	
+	<p:toolbar style="height:70px;padding:10px;margin:-7px">
+		
+		<f:facet name="left">
+			<h:form id="menu" style="border:none">
+				<p:menubar model="#{beanMenuView.model}"></p:menubar>
+			</h:form>
+			
+		</f:facet>
+		<f:facet name="right">
+			<p:outputLabel value= "SWGE"  style="margin-lefth:10px;margin-top:40px;text-size:20px"/><br></br>
+			<p:outputLabel value= "SISTEMA DE GERENCIAMENTO DE ESTABELECIMENTO"  style="margin-lefth:10px;margin-top:40px;text-size:20px"/>	
+		</f:facet>
+	</p:toolbar>
 	<h:form id="conteudo">
 		<ui:include id="inconteudo" src="#{beanPageLoader.page}">
 		</ui:include>

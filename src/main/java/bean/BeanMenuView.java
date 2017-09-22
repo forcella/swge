@@ -32,7 +32,7 @@ public class BeanMenuView {
  
         item = new DefaultMenuItem("Cadastro");
         item.setIcon("ui-icon-disk");
-        item.setCommand("#{menuView.save}");
+        item.setCommand("#{beanPageLoader.loadCadastroCliente}");
         item.setAjax(true);
         item.setUpdate("conteudo");
         clienteMenu.addElement(item);
@@ -68,21 +68,35 @@ public class BeanMenuView {
         
         DefaultSubMenu gerenteMenu = new DefaultSubMenu("Gerente");
         
-        item = new DefaultMenuItem("Produto");
+        DefaultSubMenu produtoMenu = new DefaultSubMenu("Produto");
+        
+        item = new DefaultMenuItem("Cadastro");
         item.setIcon("ui-icon-disk");
-        item.setCommand("#{menuView.save}");
+        item.setCommand("#{beanPageLoader.loadCadastroProduto}");
+        item.setAjax(true);
+        item.setUpdate("conteudo");
+        produtoMenu.addElement(item);
+        gerenteMenu.addElement(produtoMenu);
+        
+        
+        DefaultSubMenu funcionarioMenu = new DefaultSubMenu("Funcionario");
+        
+        item = new DefaultMenuItem("Cadastro");
+        item.setIcon("ui-icon-disk");
+        item.setCommand("#{beanPageLoader.loadCadastroFuncionario}");
+        item.setAjax(true);
+        item.setUpdate("conteudo");
+        funcionarioMenu.addElement(item);
+        gerenteMenu.addElement(funcionarioMenu);
+        
+        item = new DefaultMenuItem("Cadastro Categoria");
+        item.setIcon("ui-icon-disk");
+        item.setCommand("#{beanPageLoader.loadCadastroCategoria}");
         item.setAjax(true);
         item.setUpdate("conteudo");
         gerenteMenu.addElement(item);
         
-        item = new DefaultMenuItem("Relatórios");
-        item.setIcon("ui-icon-disk");
-        item.setCommand("#{menuView.save}");
-        item.setAjax(true);
-        item.setUpdate("conteudo");
-        gerenteMenu.addElement(item);
-        
-        item = new DefaultMenuItem("Funcionário");
+        item = new DefaultMenuItem("Relatorios");
         item.setIcon("ui-icon-disk");
         item.setCommand("#{menuView.save}");
         item.setAjax(true);

@@ -8,6 +8,9 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
+
 import helper.Conexao;
 
 public abstract class DaoGenerica<T, I extends Serializable> {
@@ -64,5 +67,5 @@ public abstract class DaoGenerica<T, I extends Serializable> {
 
    public T encontrar(I id) {
        return entityManager.find(persistedClass, id);
-   }
+   }  
 }

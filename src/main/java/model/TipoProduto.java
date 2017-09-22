@@ -14,6 +14,7 @@ public class TipoProduto implements Serializable{
 	@GeneratedValue
 	private Long id;
 	private String nomeDoTipo;
+	
 	public Long getId() {
 		return id;
 	}

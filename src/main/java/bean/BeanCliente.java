@@ -1,10 +1,16 @@
 package bean;
 
+import java.util.List;
+
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 import controller.ControleCliente;
+import dao.DaoTipoDocumento;
 import model.Cliente;
+import model.TipoDocumento;
 
 @ManagedBean
 @SessionScoped
@@ -13,21 +19,28 @@ public class BeanCliente {
 	private Cliente cliente;
 	private String msg;
 	private String numeroDoc;
-
+	private long id;
+	private List<TipoDocumento> tpsDocumento;
+	private DaoTipoDocumento daoTpDocumento;
+	
+	
 	public BeanCliente() {
 		setCliente(new Cliente());
 		msg = "";
 		numeroDoc = "";
+		daoTpDocumento = new DaoTipoDocumento();
+		tpsDocumento = daoTpDocumento.listarTodos();
 	}
 
 	public void cadastrar() {
 
 		ControleCliente controleCliente = new ControleCliente();
+		cliente.setTipoDocumento(daoTpDocumento.encontrar(id));
 		cliente = controleCliente.cadastrar(cliente);
 		if (cliente == null) {
-			msg = "O formulário contém erros";
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Nao foi possivel cadastrar o usuario"));
 		} else {
-			msg = "Cadastro de cliente efetuado";
+			 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info:", "Cliente Cadastrado Com Sucesso"));
 		}
 		cliente = new Cliente();
 	}
@@ -43,7 +56,10 @@ public class BeanCliente {
 			msg = "Cliente encontrado";
 		}
 	}
-
+	
+	public void limpar(){
+		cliente = new Cliente();
+	}
 	public void editarCliente() {
 		cliente = new Cliente();
 		ControleCliente controleCliente = new ControleCliente();
@@ -79,5 +95,22 @@ public class BeanCliente {
 	public void setNumeroDoc(String numeroDoc) {
 		this.numeroDoc = numeroDoc;
 	}
+
+	public List<TipoDocumento> getTpsDocumento() {
+		return tpsDocumento;
+	}
+
+	public void setTpsDocumento(List<TipoDocumento> tpsDocumento) {
+		this.tpsDocumento = tpsDocumento;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
 
 }

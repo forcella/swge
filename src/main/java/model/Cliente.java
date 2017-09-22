@@ -1,7 +1,6 @@
 package model;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,7 +17,7 @@ public class Cliente implements Serializable{
 	private Long id;
 	private String nome;
 	private String email;
-	private List<String> telefone;
+	private String telefone;
 	@ManyToOne
 	private TipoDocumento tipoDocumento;
 	private String numeroDocumento;
@@ -35,12 +34,7 @@ public class Cliente implements Serializable{
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public List<String> getTelefone() {
-		return telefone;
-	}
-	public void addTelefone(String telefone) {
-		this.telefone.add(telefone);
-	}
+	
 	public TipoDocumento getTipoDocumento() {
 		return tipoDocumento;
 	}
@@ -62,6 +56,12 @@ public class Cliente implements Serializable{
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	public String getTelefone() {
+		return telefone;
+	}
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
 	}
 	
 	
