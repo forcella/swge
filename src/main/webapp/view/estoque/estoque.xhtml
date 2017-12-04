@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Estoque</title>
+</h:head>
+<body>
+
+	<h:form id="formEstoque">
+		<p:messages id="msgs" showDetail="true" autoUpdate="true"
+			closable="true" />
+		<p:panel id="panel" header="#{beanGerenciarEstoque.tituloOperacao}">
+
+			<h:panelGrid columns="4" cellpadding="5">
+
+				<p:outputLabel for="prodSelect" value="Produto:" />
+				<p:autoComplete id="prodSelect"
+					value="#{beanGerenciarEstoque.estoqueCadastro.produto}"
+					dropdown="true" completeMethod="#{beanProduto.completaProduto}"
+					var="produto"
+					itemLabel="#{produto.nome} #{estoque.produto.nome} #{produto.tamanhoDaUnidade} #{produto.tipoUnidade.nome}"
+					itemValue="#{produto}" converter="produtoConverter"
+					multiple="false" required="true">
+					<p:ajax event="itemSelect" listener="#{beanProduto.handleSelect}" />
+					<p:ajax event="itemUnselect"
+						listener="#{beanProduto.handleUnSelect}" />
+				</p:autoComplete>
+				<p:outputLabel for="quantidade" value="Quantidade:" />
+				<p:inputNumber id="quantidade" required="true" label="Nome"
+					value="#{beanGerenciarEstoque.estoqueCadastro.quantidade}" maxValue="999">
+				</p:inputNumber>
+				<p:outputLabel for="valorPago" value="Valor Pago:" />
+				<p:inputNumber id="valorPago" value="#{beanGerenciarEstoque.estoqueCadastro.valorPago}" symbol=" R$" symbolPosition="s" 
+                               decimalSeparator="," thousandSeparator="." required="true" maxValue="999999">  
+                    <p:ajax update="valorPago" />  
+                </p:inputNumber>
+
+				<p:outputLabel for="datetime" value="Data:" />
+				<p:calendar id="datetime"
+					value="#{beanGerenciarEstoque.estoqueCadastro.data}"
+					pattern="dd/MM/yyyy HH:mm:ss" required="true" />
+				<p:outputLabel for="obs" value="Observação: "></p:outputLabel>
+				<p:inputTextarea id="obs"
+					value="#{beanGerenciarEstoque.estoqueCadastro.obs}" maxlength="120"></p:inputTextarea>
+			</h:panelGrid>
+			<p:commandButton title="#{beanGerenciarEstoque.btnNomeOp}"
+				disabled="#{beanGerenciarEstoque.bolBtnCadastrar}"
+				actionListener="#{beanGerenciarEstoque.cadastrar}" update="conteudo"></p:commandButton>
+
+			<p:commandButton title="Editar"
+				disabled="#{beanGerenciarEstoque.bolBtnEditar}"
+				actionListener="#{beanGerenciarEstoque.editar}" update="conteudo"></p:commandButton>
+			<p:commandButton title="Limpar"
+				actionListener="#{beanGerenciarEstoque.limpar}" update=":conteudo" process="@this"></p:commandButton>
+		</p:panel>
+
+		<p:panel header="Estoque Cadastrado">
+
+			<p:dataTable id="tableEstoque" var="estoque"
+				value="#{beanGerenciarEstoque.listaDeEstoque}"
+				widgetVar="estoqueTable" multiViewState="true" rows="10"
+				paginator="true"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15" selectionMode="single"
+				selection="#{beanGerenciarEstoque.estoqueSelecionado}"
+				rowKey="#{estoque.id}" emptyMessage="Estoque não cadastrado"
+				filteredValue="#{beanGerenciarEstoque.estoqueFiltrado}">
+
+				<p:ajax event="rowSelect"
+					listener="#{beanGerenciarEstoque.selecionaLinha}"
+					update="conteudo:formEstoque:panel" />
+
+				<p:column headerText="Produto" filterBy="#{estoque.produto.nome}"
+					style="width:30%%" sortBy="#{estoque.produto.nome}"
+					filterMatchMode="contains">
+					<h:outputText
+						value="#{estoque.produto.nome} #{estoque.produto.tamanhoDaUnidade} #{estoque.produto.tipoUnidade.nome}s" />
+				</p:column>
+				<p:column headerText="Data" filterBy="#{estoque.data}"
+					sortBy="#{estoque.data}" filterMatchMode="contains"
+					style="width:10%">
+
+					<h:outputText value="#{estoque.data}">
+						<f:convertDateTime locale="pt_BR" dateStyle="long"
+							pattern="dd/MM/yyyy 'às' HH:mm" />
+					</h:outputText>
+
+				</p:column>
+				<p:column headerText="Qtd" filterBy="#{estoque.quantidade}"
+					style="width:10%" sortBy="#{estoque.quantidade}"
+					filterMatchMode="exact">
+					<h:outputText value="#{estoque.quantidade}" />
+				</p:column>
+				<p:column headerText="Funcionario" style="width:20%">
+					<h:outputText value="#{estoque.usuario.nome}" />
+				</p:column>
+				<p:column headerText="Obs" filterBy="#{estoque.quantidade}"
+					style="width:30%" sortBy="#{estoque.obs}"
+					filterMatchMode="contains">
+					<h:outputText value="#{estoque.obs}" />
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+		
+	</h:form>
+	
+		
+</body>
+</html>

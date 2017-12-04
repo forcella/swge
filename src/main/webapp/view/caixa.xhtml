@@ -7,8 +7,145 @@
 
 <h:head></h:head>
 <body>
-	Página caixa
-	
+	<h:form id="formCaixa">
+		<p:panel header="Caixa" id="caixa">
+			<p:messages id="msgs" showDetail="true" autoUpdate="true"
+				closable="true" />
+
+			<p:layout style="min-width:1000px;min-height:450px;" id="layout">
+				<p:layoutUnit position="west" size="100"
+					minSize="600" maxSize="600" >
+					<p:dataTable id="tableContas" var="cont" 
+						value="#{beanConta.todasContas}" selectionMode="single"
+						selection="#{beanConta.contaSelecionada}" rowKey="#{cont.id}"
+						>
+						
+						
+						<p:ajax event="rowSelect" listener="#{beanConta.mostrarCampoNota}" update="conteudo" />
+
+						<p:column headerText="MESA" filterBy="#{cont.numMesa}"
+							sortBy="#{cont.numMesa}" filterMatchMode="contains"
+							style="width:18%">
+							<h:outputText rendered="false" value="#{cont.id}" />
+							<h:outputText value="#{cont.numMesa}" />
+						</p:column>
+						<p:column headerText="CARTÃO" filterBy="#{cont.cartao.cod}"
+							sortBy="#{cont.cartao.cod}" filterMatchMode="contains"
+							style="width:18%">
+							<h:outputText value="#{cont.cartao.cod}" />
+						</p:column>
+						<p:column headerText="CLIENTE" filterBy="#{cont.cliente.nome}"
+							sortBy="#{cont.cliente.nome}" filterMatchMode="contains">
+							<h:outputText value="#{cont.cliente.nome}" />
+						</p:column>
+
+						<p:column headerText="TOTAL" style="width:12%">
+							<h:outputText value="#{cont.total}" />
+						</p:column>
+					</p:dataTable>
+				</p:layoutUnit>
+
+				<p:layoutUnit position="center"  id="layNotas">
+					<p:panel id="panelNota" rendered="#{beanConta.mostrarNota}">
+						<h:outputText value="NOTA ELETRONICA"
+							style="width:10%;font-weight: bold;border:none;vertical-align: middle" />
+						<hr></hr>
+						<p:panelGrid style="margin-top:20px;width:100%;">
+
+
+							<p:row style="border:none">
+								<p:column colspan="14" style="border:none">
+									<h:outputText
+										value="Cliente: #{beanConta.contaSelecionada.cliente.nome}"
+										style="width:10%;font-weight: bold;border:none" />
+								</p:column>
+							</p:row>
+
+							<p:row style="border:none">
+								<p:column style="border:none" colspan="6">
+									<h:outputText
+										value="Cartão: #{beanConta.contaSelecionada.cartao.cod}"
+										style="width:10%;font-weight: bold;border:none" />
+								</p:column>
+
+								<p:column style="border:none" colspan="6">
+									<h:outputText
+										value="Mesa: #{beanConta.contaSelecionada.numMesa}"
+										
+										style="width:10%;font-weight: bold;border:none" />
+								</p:column>
+							</p:row>
+
+							<p:row style="border:none">
+
+								<p:column colspan="11" style="border:none">
+									<h:outputText value="Descrição"
+										style="width:10%;font-weight: bold;border:none" />
+								</p:column>
+								<p:column style="border:none">
+									<h:outputText value="Quantidade"
+										style="width:10%;font-weight: bold;border:none" />
+								</p:column>
+								<p:column colspan="4" style="border:none">
+									<h:outputText value="Valor Unitario"
+										style="width:10%;font-weight: bold;border:none" />
+								</p:column>
+								<p:column colspan="4" style="border:none">
+									<h:outputText value="Valor Parcial"
+										style="width:10%;font-weight: bold;border:none" />
+								</p:column>
+							</p:row>
+
+							<p:repeat value="#{beanConta.contaSelecionada.listaDeItemPedio}"
+								var="pedido">
+								<p:row style="border:none">
+
+									<p:column colspan="11" style="border:none">
+										<h:outputText value="#{pedido.produto.nome}"
+											style="border:none;text-size:'2px'" />
+									</p:column>
+									<p:column style="border:none;text-align:center">
+										<h:outputText value="#{pedido.quantidade}" style="border:none" />
+									</p:column>
+									<p:column colspan="4" style="border:none;text-align:center">
+										<h:outputText value="#{pedido.produto.valorVenda}"
+											style="border:none" />
+									</p:column>
+									<p:column colspan="4" style="border:none;text-align:center">
+										<h:outputText value="#{pedido.valorParcial}"
+											style="border:none" />
+									</p:column>
+								</p:row>
+							</p:repeat>
+
+							<p:row style="border:none">
+								<p:column colspan="18" style="border:none">
+									<h:outputText value="Valor Total: "
+										style="border:none;font-weight: bold" />
+								</p:column>
+								<p:column style="border:none;text-align:center">
+									<h:outputText value="R$ #{beanConta.contaSelecionada.total}"
+										style="border:none;font-weight: bold" />
+								</p:column>
+							</p:row>
+						</p:panelGrid>
+						
+						<br></br>
+						<br></br>
+						<br></br>
+						<p:commandButton value="Pagar" action="#{beanConta.fecharConta}"
+						update="conteudo:formCaixa" icon="ui-icon-check" />	
+					</p:panel>
+					
+					
+				</p:layoutUnit>
+			</p:layout>
+
+
+
+
+		</p:panel>
+	</h:form>
 
 </body>
 </html>

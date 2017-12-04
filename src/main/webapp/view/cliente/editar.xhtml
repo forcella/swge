@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Editar Cliente</title>
+</h:head>
+<body>
+
+	<h:form id="formCliente">
+		<p:messages id="msgs" showDetail="true" autoUpdate="true"
+			closable="true" />
+		<p:panel id="panel" header="#{beanEdtCliente.tituloOperacao}">
+
+			<h:panelGrid columns="4" cellpadding="5">
+
+				<p:outputLabel for="nome" value="Nome:" />
+				<p:inputText id="nome" required="true" label="Nome"
+					value="#{beanEdtCliente.clienteSelecionado.nome}" maxlength="100">
+				</p:inputText>
+				<p:outputLabel for="email" value="Email:" />
+				<p:inputText id="email" required="true" label="Email"
+					value="#{beanEdtCliente.clienteSelecionado.email}" maxlength="100"
+					type="email" requiredMessage="Entre o email"
+					validatorMessage="Email inválido, exemplo: email@servidor.com">
+					<f:validateRegex
+						pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+				</p:inputText>
+				<p:outputLabel for="telefone" value="Telefone:" />
+				<p:inputMask id="telefone"
+					value="#{beanEdtCliente.clienteSelecionado.telefone}"
+					mask="(99) 9999-9999" />
+				<p:outputLabel value="Documento: "></p:outputLabel>
+				<p:fieldset>
+
+					<p:selectOneRadio id="doc" required="true"
+						value="#{beanEdtCliente.clienteSelecionado.tipoDocumento}"
+						converter="tipoDocConverter">
+						<f:selectItems value="#{beanEdtCliente.listaTipoDoc}"
+							var="tipoDoc" itemLabel="#{tipoDoc.tipoDocumento}"
+							itemValue="#{tipoDoc}" />
+					</p:selectOneRadio>
+					<p:outputLabel for="numDoc" value="Número: " />
+					<p:inputText id="numDoc" type="number"
+						value="#{beanEdtCliente.clienteSelecionado.numeroDocumento}"
+						required=" true"></p:inputText>
+				</p:fieldset>
+
+			</h:panelGrid>
+			<p:commandButton title="Editar"
+				disabled="#{beanEdtCliente.bolBtnEditar}"
+				actionListener="#{beanEdtCliente.editar}" update="conteudo"></p:commandButton>
+			<p:commandButton title="Limpar"
+				actionListener="#{beanEdtCliente.limpar}" update=":conteudo"
+				process="@this"></p:commandButton>
+		</p:panel>
+
+		<p:panel header="Clientes">
+			<p:dataTable id="tableCliente" var="cliente"
+				value="#{beanEdtCliente.listaClientes}" widgetVar="clienteTable"
+				multiViewState="true" rows="10" paginator="true"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15" selectionMode="single"
+				selection="#{beanEdtCliente.clienteSelecionado}"
+				rowKey="#{cliente.id}" emptyMessage="Sem cadastros"
+				filteredValue="#{beanEdtCliente.clienteFiltrado}">
+
+				<p:ajax event="rowSelect"
+					listener="#{beanEdtCliente.selecionaLinha}"
+					update="conteudo:formCliente:panel" />
+
+				<p:column headerText="Cliente" filterBy="#{cliente.nome}"
+					style="width:30%" sortBy="#{cliente.nome}"
+					filterMatchMode="contains">
+					<h:outputText value="#{cliente.nome}" />
+				</p:column>
+				<p:column headerText="Documento" style="width:20%">
+					<h:outputText value="#{cliente.numeroDocumento}" />
+				</p:column>
+				<p:column headerText="E-Mail" style="width:20%">
+					<h:outputText value="#{cliente.email}" />
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+
+	</h:form>
+
+
+</body>
+</html>

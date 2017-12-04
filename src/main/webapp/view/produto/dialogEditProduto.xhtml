@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+<style>
+
+</style>
+
+</h:head>
+<body>
+	<h:form id="formEdit" >
+
+     		<h:panelGrid id="panelEdit" columns="2" cellpadding="5">
+               <p:outputLabel for="cod" value="Codigo de Barras:" />
+				<p:inputText id="cod" required="true" label="cod"
+					value="#{beanProduto.produtoSelecionado.codsBarras}">
+				</p:inputText>
+				
+				<p:outputLabel for="nome" value="Nome:" />
+				<p:inputText id="nome" required="true" label="Nome"
+					value="#{beanProduto.produtoSelecionado.nome}">
+				</p:inputText>
+				
+				<p:outputLabel for="categoria" value="Categoria:" />
+				<p:selectOneMenu id="categoria" value="#{beanProduto.nomeCategoria}" style="width:150px">
+					<!-- <f:selectItem itemLabel="#{beanProduto.produtoSelecionado.categoria.categoria}" itemValue="#{beanProduto.produtoSelecionado.categoria.categoria}"/> -->
+					<f:selectItem itemLabel="Selecione a Categoria" itemValue="" noSelectionOption="true" />
+					<f:selectItems value="#{beanProduto.categorias}" />
+				</p:selectOneMenu>
+			
+				<p:outputLabel for="tipUnidade" value="Unidade:" />
+
+				<p:selectOneMenu id="tipUnidade" value="#{beanProduto.tipoUnidade}"
+					style="width:150px">
+					<!-- <f:selectItem itemLabel="#{beanProduto.produtoSelecionado.tipoUnidade.nome}" itemValue="#{beanProduto.produtoSelecionado.tipoUnidade.nome}"/> -->
+					<f:selectItem itemLabel="Selecione a medida" itemValue="" noSelectionOption="true" />
+					<f:selectItems value="#{beanProduto.unidades}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="tamanhoDaUnidade" value="Tamanho da unidade:" />
+				<p:inputText id="tamanhoDaUnidade" required="true"
+					label="tamanhoDaUnidade"
+					value="#{beanProduto.produtoSelecionado.tamanhoDaUnidade}" type="number">
+				</p:inputText>
+
+				<p:outputLabel value="Selecione os Ingredientes:" />
+				<p:autoComplete value="#{beanProduto.produtoSelecionado.ingredientes}"
+					dropdown="true" completeMethod="#{beanProduto.completaProduto}"
+					var="produtoSelecionado" itemLabel="#{produtoSelecionado.nome}" itemValue="#{produtoSelecionado}"
+					converter="produtoConverter" multiple="true">
+					<p:ajax event="itemSelect" listener="#{beanProduto.handleSelect}" />
+					<p:ajax event="itemUnselect"
+						listener="#{beanProduto.handleUnSelect}" />
+				</p:autoComplete>
+
+				<h:outputText value="Produto Comercializavel: " />
+				<p:selectBooleanButton id="value"
+					value="#{beanProduto.produtoSelecionado.comercializavel}" onLabel="Sim"
+					offLabel="NÃ£o" onIcon="ui-icon-check" offIcon="ui-icon-close"
+					style="width:100px">
+				</p:selectBooleanButton>
+
+				<h:outputText value="Produto com restriÃ§Ã£o de idade: " />
+				<p:selectBooleanButton id="value2"
+					value="#{beanProduto.produtoSelecionado.maiorIdade}" onLabel="Sim"
+					offLabel="NÃ£o" onIcon="ui-icon-check" offIcon="ui-icon-close"
+					style="width:100px">
+				</p:selectBooleanButton>
+
+
+				<p:outputLabel for="valorVenda" value="Valor unitario da venda:" />
+				<p:inputText id="valorVenda" label="preco"
+					value="#{beanProduto.produtoSelecionado.valorVenda}">
+				</p:inputText>
+			</h:panelGrid>
+			
+			<p:commandButton value="Confirmar" id="submit" actionListener="#{beanProduto.alterar}" style="margin-top: 20px"  icon="ui-icon-check"/>	
+				
+			<p:commandButton value="Limpar" actionListener="#{beanProduto.limpar}"  icon="ui-icon-check" />     
+	</h:form>
+</body>
+</html>

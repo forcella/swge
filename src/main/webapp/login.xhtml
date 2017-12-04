@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -6,32 +6,37 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-	
-</h:head> 
+
+</h:head>
 <body>
 	<h:form>
-    <p:panel id="panel" header="Logar">
- 
-        <p:messages id="msgs" />
- 
-        <h:panelGrid columns="3" cellpadding="5">
-            <p:outputLabel for="login" value="Login:" />
-            <p:inputText id="login"  required="true" label="Login">
-               
-            </p:inputText>
-            <p:message for="login" display="icon" />
- 
-            <p:outputLabel for="email" value="Email:" />
-            <p:inputText id="email"  label="Email" required="true">
-                
-            </p:inputText>
-            <p:message for="email" id="msgLogin" display="icon" />
- 
-        </h:panelGrid>
- 
-        <p:commandButton value="Entrar" action="#{beanLogin.logar}" update="panel" icon="ui-icon-check" />
-        <p:commandButton value="Limpar" action="#{beanLogin.deslogar}"  update="panel" icon="ui-icon-check" />
-    </p:panel>
-</h:form>
+		<p:panel id="panel" header="Logar">
+
+			<p:messages id="msgs" />
+
+			<h:panelGrid columns="3" cellpadding="5">
+				<p:outputLabel for="login" value="Login:" />
+				<p:inputText id="login" required="true" label="Login">
+
+				</p:inputText>
+				<p:message for="login" display="icon" />
+
+				<p:outputLabel for="email" value="Email:" />
+
+				<p:inputText id="email" label="Email" required="true">
+
+				</p:inputText>
+				<p:message for="email" id="msgLogin" display="icon" />
+
+			</h:panelGrid>
+			<p:commandLink title="dasda">
+				<h:graphicImage name="img/btn-logar.png" />
+			</p:commandLink>
+
+			
+			<p:commandButton value="Limpar" action="#{beanLogin.deslogar}"
+				update="panel" icon="ui-icon-check" />
+		</p:panel>
+	</h:form>
 </body>
 </html>

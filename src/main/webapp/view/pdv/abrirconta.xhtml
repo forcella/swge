@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+	<style>
+#conteudo:formCad {
+	width: "100px" heigth:"200px"
+}
+</style>
+
+</h:head>
+<body>
+	<h:form id="formCad" style="">
+		<p:panel id="panel" header="Abrir Conta">
+
+			<p:messages id="msgs" showDetail="true" autoUpdate="true"
+				closable="true" />
+			
+			
+			<h:panelGrid columns="2" cellpadding="5">
+				
+				<p:outputLabel value="Codigo Cartão:" />
+				<p:autoComplete value="#{beanPdv.cartao}"
+					dropdown="true" completeMethod="#{beanPdv.completaCartoesDisponiveis}"
+					var="card" itemLabel="#{card.cod}" itemValue="#{card}"
+					converter="cartaoConverter">
+					<p:ajax event="itemSelect" listener="#{beanPdv.handleSelectAbrir}" />
+					<p:ajax event="itemUnselect"
+						listener="#{beanPdv.handleUnSelectAbrir}" />
+				</p:autoComplete>
+				
+				<p:outputLabel value="Cliente:" />
+				<p:autoComplete value="#{beanPdv.cliente}"
+					completeMethod="#{beanPdv.completaCliente}"
+					var="cli" itemLabel="#{cli.numeroDocumento}" itemValue="#{cli}"
+					converter="clienteConverter">
+					<p:ajax event="itemSelect" listener="#{beanPdv.handleSelectCli}" />
+					<p:ajax event="itemUnselect"
+						listener="#{beanPdv.handleUnSelectCli}" />
+				</p:autoComplete>
+				
+				<p:outputLabel value="Numero da Mesa:" />
+				<p:selectOneMenu id="mesa" value="#{beanPdv.mesa}"
+					style="width:120px">
+					<f:selectItem itemLabel="Selecione a mesa" itemValue=""
+						noSelectionOption="true" />
+					<f:selectItems value="#{beanPdv.numMesa}" />
+				</p:selectOneMenu>
+
+
+			</h:panelGrid>
+
+			<p:commandButton value="Abrir" action="#{beanPdv.abrirConta}"
+				update="panel" icon="ui-icon-check" />
+			
+		</p:panel>
+	</h:form>
+
+	<script type="text/javascript">
+		function toggle(id) {
+			var element = document.getElementById(id);
+			if (element.style.display == 'block') {
+				element.style.display = 'none';
+			} else {
+				element.style.display = 'block'
+			}
+		}
+	</script>
+
+</body>
+</html>

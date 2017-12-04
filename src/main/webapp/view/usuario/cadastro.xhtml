@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+	<style>
+		#conteudo:formCad{
+			width:"100px";
+			
+		}
+	</style>
+
+</h:head>
+<body>
+	<h:form>
+    <p:panel id="panel" header="Cadastro Usuario">
+ 
+        <p:messages id="msgs" showDetail="true" autoUpdate="true"
+				closable="true" />
+ 
+        <h:panelGrid columns="2" cellpadding="5">
+            
+            <p:outputLabel for="nome" value="Nome:" />
+            <p:inputText id="nome"  required="true" label="Nome"  value="#{beanUsuario.usuario.nome}">   
+            </p:inputText>
+         	
+         	<p:outputLabel for="login" value="Login:" />
+            <p:inputText id="login"  required="true" label="Login"  value="#{beanUsuario.usuario.login}">   
+            </p:inputText>
+         	
+         	<h:outputLabel for="pwd1" value="Senha:" />
+        	<p:password id="pwd1" value="#{beanUsuario.usuario.senha}" match="pwd2" label="senha1" required="true" feedback="true"/>
+ 
+        	<h:outputLabel for="pwd2" value="Confirme sua Senha:: *" />
+        	<p:password id="pwd2" value="#{beanUsuario.usuario.senha}" label="confirma" required="true" />   
+            
+         	<p:outputLabel for="funcao" value="Funcao:" />
+				<p:selectOneMenu id="funcao" value="#{beanUsuario.funcao}" style="width:150px">
+					<f:selectItem itemLabel="Selecione a Função" itemValue="" noSelectionOption="true" />
+					<f:selectItems value="#{beanUsuario.funcoes}" />
+			</p:selectOneMenu>
+         	
+ 		
+        </h:panelGrid>
+ 
+        <p:commandButton value="Cadastrar" action="#{beanUsuario.cadastrar}" update="panel" icon="ui-icon-check" />
+        <p:commandButton value="Limpar" action="#{beanUsuario.limpar}"  update="panel" icon="ui-icon-check" />
+    </p:panel>
+</h:form>
+	
+
+</body>
+</html>

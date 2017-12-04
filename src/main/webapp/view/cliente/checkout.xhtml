@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+	<h:form id="formCheckout">
+		<p:messages id="msgs" showDetail="true" autoUpdate="true"
+			closable="true" />
+	<p:outputLabel value="#{beanClieanteCheckout.situcao}"></p:outputLabel>
+		<p:panelGrid columns="1" layout="grid"
+			style="margin: 0 auto;text-align: center; max-width:40%;min-width:30%">
+			<p:row style="center">
+
+				<p:outputLabel value="Número do cartão">
+				</p:outputLabel>
+
+			</p:row>
+			<p:row>
+
+				<p:inputText value="#{beanClienteCheckout.codCartao}">
+				</p:inputText>
+				<p:commandButton value="GO"
+					actionListener="#{beanClienteCheckout.checkout}" update="conteudo"></p:commandButton>
+			</p:row>
+
+
+
+			<p:layout id="situacao" style="min-width:400px;min-height:200px;">
+			
+				<p:layoutUnit position="center">
+					<p:outputLabel value="Situação de: ">
+					</p:outputLabel>
+					<p:outputLabel value="#{beanClienteCheckout.conta.cliente.nome}">
+					</p:outputLabel>
+					<br></br>
+					<p:outputLabel value="#{beanClienteCheckout.situacao}"
+						style="font-size:3em; #{beanClienteCheckout.cor}">
+						
+					</p:outputLabel>
+				</p:layoutUnit>
+			</p:layout>
+		</p:panelGrid>
+	</h:form>
+</body>
+</html>

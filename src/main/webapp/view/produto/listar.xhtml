@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+<style>
+
+</style>
+
+</h:head>
+<body>
+	
+	
+	<h:form id="formEdit">
+		<p:panel id="panel" header="Alterar Produto">
+
+			<p:messages id="msgs" showDetail="true" autoUpdate="true"
+				closable="true" />
+			
+     		<h:panelGrid id="panelEdit" columns="2" cellpadding="5">
+               <p:outputLabel for="cod" value="Codigo de Barras:" />
+				<p:inputText id="cod" required="true" label="cod"
+					value="#{beanProduto.produtoEditado.codsBarras}" maxlength="50">
+				</p:inputText>
+			
+				<p:outputLabel for="nome" value="Nome:"/>
+				<p:inputText id="nome" required="true" label="Nome"
+					value="#{beanProduto.produtoEditado.nome}" maxlength="50">
+				</p:inputText>
+				
+				<p:outputLabel for="categoria" value="Categoria:" />
+				<p:autoComplete id="categoria" value="#{beanProduto.produtoEditado.categoria}"
+					dropdown="true" completeMethod="#{beanProduto.completaCategoria}"
+					var="cat" itemLabel="#{cat.categoria}" itemValue="#{cat}"
+					converter="categoriaConverter" required="true">
+					<p:ajax event="itemSelect" listener="#{beanProduto.handleSelectCategoria}" />
+					<p:ajax event="itemUnselect" listener="#{beanProduto.handleUnSelectCategoria}" />
+				</p:autoComplete>
+				
+				<p:outputLabel for="tipUnidade" value="Unidade:" />
+				
+				<p:autoComplete id="tipUnidade" value="#{beanProduto.produtoEditado.tipoUnidade}"
+					dropdown="true" completeMethod="#{beanProduto.completaTipoUnidade}" required="true"
+					var="tipUnidade" itemLabel="#{tipUnidade.nome}" itemValue="#{tipUnidade}"
+					converter="tipoConverter">
+					<p:ajax event="itemSelect" listener="#{beanProduto.handleSelectTpUnidade}" />
+					<p:ajax event="itemUnselect" listener="#{beanProduto.handleUnSelectTpUnidade}" />
+				</p:autoComplete>
+				
+				
+				<p:outputLabel for="tamanhoDaUnidade" value="Tamanho da unidade:" />
+				<p:inputNumber id="tamanhoDaUnidade" required="true"
+					label="tamanhoDaUnidade"
+					value="#{beanProduto.produtoEditado.tamanhoDaUnidade}" maxValue="999">
+				</p:inputNumber>
+			
+				<p:outputLabel value="Selecione os Ingredientes:" />
+				<p:autoComplete value="#{beanProduto.produtoEditado.ingredientes}"
+					dropdown="true" completeMethod="#{beanProduto.completaProduto}"
+					var="produto" itemLabel="#{produto.nome}" itemValue="#{produto}"
+					converter="produtoConverter" multiple="true">
+					<p:ajax event="itemSelect" listener="#{beanProduto.handleSelect}" />
+					<p:ajax event="itemUnselect"
+						listener="#{beanProduto.handleUnSelect}" />
+				</p:autoComplete>
+
+				<h:outputText value="Produto Comercializavel: " />
+				<p:selectBooleanButton id="value"
+					value="#{beanProduto.produtoEditado.comercializavel}" onLabel="Sim"
+					offLabel="NÃO" onIcon="ui-icon-check" offIcon="ui-icon-close"
+					style="width:100px">
+				</p:selectBooleanButton>
+
+				<h:outputText value="Produto com restricao de idade: " />
+				<p:selectBooleanButton id="value2"
+					value="#{beanProduto.produtoEditado.maiorIdade}" onLabel="Sim"
+					offLabel="NÃO" onIcon="ui-icon-check" offIcon="ui-icon-close"
+					style="width:100px">
+				</p:selectBooleanButton>
+
+				<h:outputText value="Produto com controle de Estoque: " />
+				<p:selectBooleanButton id="value3"
+					value="#{beanProduto.produtoEditado.controladoEstoque}" onLabel="Sim"
+					offLabel="NÃO" onIcon="ui-icon-check" offIcon="ui-icon-close"
+					style="width:100px">
+				</p:selectBooleanButton>
+				
+				
+				<p:outputLabel for="valorVenda" value="Valor unitario da venda:" />
+				<p:inputNumber id="valorVenda" label="preco"
+					value="#{beanProduto.produtoEditado.valorVenda}" symbol=" R$"
+					symbolPosition="s" decimalSeparator="," thousandSeparator=".">
+				</p:inputNumber>
+			</h:panelGrid>
+			
+			<p:commandButton value="Confirmar"  id="submit" actionListener="#{beanProduto.alterar}" style="margin-top: 20px"  icon="ui-icon-check" update="tableDATA conteudo:formEdit:panel"/>	
+				
+			<p:commandButton value="Limpar" actionListener="#{beanProduto.limparEdit}"  icon="ui-icon-check" update="conteudo:formEdit:panel"/>    
+			
+			<p:commandButton icon=" ui-icon-circle-close" value="Apagar" actionListener="#{beanProduto.apagar}" update="tableDATA conteudo:formEdit:panel"/>
+			
+			</p:panel> 
+	
+	
+	 
+
+	<p:panel id="tableDATA">
+		 <p:dataTable id="tablePRODUTO" var="prod" value="#{beanProduto.listaProdutos}" widgetVar="prodsTable" multiViewState="true"
+                 rows="15" paginator="true"
+                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 rowsPerPageTemplate="5,10,15,25,50"
+                 selectionMode="single" selection="#{beanProduto.produtoSelecionado}" rowKey="#{prod.id}"
+                 emptyMessage="Não foram encontrados produtos referentes a pesquisa" filteredValue="#{beanProduto.listaProdutosSelecionados}">
+ 
+        <f:facet name="header">
+            <p:outputPanel>
+                <h:outputText value="PRODUTOS CADASTRADOS" />
+            </p:outputPanel>
+        </f:facet>
+ 
+        <p:ajax event="rowSelect"  update="conteudo:formEdit:panel" listener="#{beanProduto.selecionaLinha}" />
+ 		
+ 		
+        <p:column headerText="Produto" filterBy="#{prod.nome}" sortBy="#{prod.nome}" filterMatchMode="contains" style="width:25%">
+            <h:outputText value="#{prod.nome}" />
+        </p:column>
+ 
+        <p:column headerText="QtdEstoque" filterBy="#{prod.quantidadeEstoque}" sortBy="#{prod.quantidadeEstoque}" filterMatchMode="exact">
+            <h:outputText value="#{prod.quantidadeEstoque}" />
+        </p:column>
+ 
+        <p:column headerText="Tipo De Unidade" style="width:8%">
+            <h:outputText value="#{prod.tipoUnidade.nome}" />
+        </p:column>
+ 		
+ 		<p:column headerText="Tamanho da Unidade" style="width:8%">
+            <h:outputText value="#{prod.tamanhoDaUnidade}" />
+        </p:column>
+ 		
+        <p:column headerText="Categoria" style="width:13%" filterBy="#{prod.categoria.categoria}" sortBy="#{prod.categoria.categoria}" filterMatchMode="exact">
+              <f:facet name="filter">
+                <p:selectOneMenu onchange="PF('prodsTable').filter()" style="width:100px;" >
+                    <f:selectItem itemLabel="Selecione Uma" itemValue="#{null}" noSelectionOption="true" />
+                    <f:selectItems value="#{beanProduto.categorias}" />
+                </p:selectOneMenu>
+            </f:facet>
+            <h:outputText value="#{prod.categoria.categoria}" />
+        </p:column>
+         <p:column headerText="Valor de Venda" filterBy="#{prod.valorVenda}" sortBy="#{prod.valorVenda}" filterMatchMode="startsWith">
+            <h:outputText value="#{prod.valorVenda}" />
+       	 </p:column>
+      
+        
+    </p:dataTable>
+    </p:panel>
+    </h:form>
+</body>
+</html>

@@ -14,19 +14,19 @@
 
 </h:head>
 <body>
-	<h:form id="formCad" style="">
-    <p:panel id="panel" header="Cadastro Categoria" style="witdth:300px">     
+	<h:form id="formCadTpUnidade" style="">
+    <p:panel id="panel" header="Cadastro Tipo da Unidade" style="witdth:300px">     
      <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
  
         <h:panelGrid columns="2" cellpadding="5">
             <p:outputLabel for="nome" value="Nome:" />
-            <p:inputText id="nome"  required="true" label="Nome" value="#{beanCategoria.categoria.categoria}" maxlength="40">   
+            <p:inputText id="nome"  required="true" label="Nome" value="#{beanTipoUnidade.tpUnidade.nome}">   
             </p:inputText>
            
         </h:panelGrid>
  
-        <p:commandButton value="Cadastrar" action="#{beanCategoria.cadastrar}" update="panel" icon="ui-icon-check" />
-        <p:commandButton value="Limpar" action="#{beanCategoria.limpar}"  update="panel" icon="ui-icon-check" />
+        <p:commandButton value="Cadastrar" action="#{beanTipoUnidade.cadastrar}" update="panel" icon="ui-icon-check" />
+        <p:commandButton value="Limpar" action="#{beanTipoUnidade.limpar}"  update="panel" icon="ui-icon-check" />
     </p:panel>
 </h:form>
 	

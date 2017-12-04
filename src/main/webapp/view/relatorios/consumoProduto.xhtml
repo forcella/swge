@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Relatorio</title>
+</h:head>
+<body>
+	<h:form id="formRelatorioMaisVendidos">
+		<p:messages id="msgs" showDetail="true" autoUpdate="true"
+			closable="true" />
+		<p:panel id="panel">
+			<p:outputLabel for="datetimeINI" value="Data Inicio:" />
+			<p:calendar id="datetimeINI" value="#{beanRelatorio.dataIni}"
+				pattern="dd/MM/yyyy HH:mm:ss" required="true" /><br></br><br></br>
+
+			<p:outputLabel for="datetimeFIM" value="Data Final:" />
+			<p:calendar id="datetimeFIM" value="#{beanRelatorio.dataFim}"
+				pattern="dd/MM/yyyy HH:mm:ss" required="true" /><br></br><br></br>
+			<p:commandButton value="Buscar Por Periodo" action="#{beanRelatorio.maisVendidos}" 
+						update="conteudo" icon="ui-icon-check" />	
+			<p:commandButton value="Buscar Sem Periodo" action="#{beanRelatorio.maisVendidosSempre}"
+						update="conteudo" icon="ui-icon-check" />	
+		</p:panel>
+		<p:panel id="produtosMaisVendidos" rendered="#{beanRelatorio.painelMaisVendidos}" >
+
+			<p:layout style="min-width:1000px;min-height:450px;" id="layout">
+				<p:layoutUnit position="west" size="100"
+					minSize="600" maxSize="600">
+					<p:outputLabel value="Relação de Itens mais Vendidos"/><br></br>
+					
+					<p:dataTable var="item" value="#{beanRelatorio.itensMaisVendidos}">
+					
+					    <p:column headerText="Produto">
+					        <h:outputText value="#{item.produto.nome}" />
+					    </p:column>
+					 
+					    <p:column headerText="Quantidade" sortBy="#{item.quantidade}">
+					        <h:outputText value="#{item.quantidade}" />
+					    </p:column>
+					    
+					    <p:column headerText="Total">
+					        <h:outputText value="#{item.valorParcial}" />
+					    </p:column>
+					 
+					</p:dataTable>
+				</p:layoutUnit>
+
+				<p:layoutUnit position="center">
+				
+					<p:chart type="pie" model="#{beanRelatorio.grafItensMaisVendidos}" style="width:400px;height:300px" />
+				
+				</p:layoutUnit>
+			</p:layout>
+
+		</p:panel>
+	</h:form>
+</body>
+</html>

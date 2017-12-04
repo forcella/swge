@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Relatorio</title>
+</h:head>
+<body>
+	<h:form id="formRelatorioConsumo">
+		<p:messages id="msgs" showDetail="true" autoUpdate="true"
+			closable="true" />
+
+
+		<p:panel id="panel">
+		
+			<p:outputLabel for="quantidade" value="Buscar Produtos com quantidade abaixo de:" />
+				<p:inputNumber id="quantidade" required="true" label="Nome"
+					value="#{beanRelatorio.qtdBusca}" maxValue="999">
+				</p:inputNumber>
+			<p:commandButton value="BuscarFiltro"
+				action="#{beanRelatorio.buscarEstoqueFiltro}" update="conteudo"
+				icon="ui-icon-check" /><br></br><br></br>
+			<p:commandButton value="BuscarTudo"
+				action="#{beanRelatorio.buscarTodoEstoque}" update="conteudo"
+				icon="ui-icon-check" />
+
+		</p:panel>
+		<p:panel id="tableResult" rendered="#{beanRelatorio.painelProdutoEstoque}">
+					<p:outputLabel value="Produtos Controlados por Estoque" style="margin: 0 auto;text-align: center"/>
+					<p:dataTable var="item" value="#{beanRelatorio.listaProdutosEstoque}" style="width:50%;margin: 5% auto">
+					
+					    <p:column headerText="Produto">
+					        <h:outputText value="#{item.nome}" />
+					    </p:column>
+					 
+					    <p:column headerText="Quantidade" style="width:20%">
+					        <h:outputText value="#{item.quantidadeEstoque}" />
+					    </p:column>
+					  
+					</p:dataTable>
+		</p:panel>
+	</h:form>
+</body>
+</html>

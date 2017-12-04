@@ -21,42 +21,89 @@
 			<p:messages id="msgs" showDetail="true" autoUpdate="true"
 				closable="true" />
 
-			<h:panelGrid columns="2" cellpadding="5">
+
+
+			<h:panelGrid id="panelEdit" columns="2" cellpadding="5">
+				<p:outputLabel for="cod" value="Codigo de Barras:" />
+				<p:inputText id="cod" required="true" label="cod"
+					value="#{beanProduto.produto.codsBarras}" maxlength="50" type="number">
+				</p:inputText>
+
 				<p:outputLabel for="nome" value="Nome:" />
 				<p:inputText id="nome" required="true" label="Nome"
-					value="#{beanProduto.produto.nome}">
+					value="#{beanProduto.produto.nome}" maxlength="150">
 				</p:inputText>
-				<p:outputLabel for="qtdEstoque" value="Qtd em Estoque:" />
-				<p:inputText id="qtdEstoque" required="true"
-					label="quantidadeEstoque"
-					value="#{beanProduto.produto.quantidadeEstoque}">
-				</p:inputText>
+
+				<p:outputLabel for="categoria" value="Categoria:" />
+				<p:autoComplete id="categoria" required="true"
+					value="#{beanProduto.produto.categoria}" dropdown="true"
+					completeMethod="#{beanProduto.completaCategoria}" var="cat"
+					itemLabel="#{cat.categoria}" itemValue="#{cat}"
+					converter="categoriaConverter">
+					<p:ajax event="itemSelect"
+						listener="#{beanProduto.handleSelectCategoria}" />
+					<p:ajax event="itemUnselect"
+						listener="#{beanProduto.handleUnSelectCategoria}" />
+				</p:autoComplete>
+
 				<p:outputLabel for="tipUnidade" value="Unidade:" />
 
-				<p:selectOneMenu id="tipUnidade" value="#{beanProduto.nome}"
-					style="width:150px">
-					<f:selectItem itemLabel="Selecione a medida" itemValue=""
-						noSelectionOption="true" />
-					<f:selectItems value="#{beanProduto.unidades}" />
-				</p:selectOneMenu>
+				<p:autoComplete id="tipUnidade" required="true"
+					value="#{beanProduto.produto.tipoUnidade}" dropdown="true"
+					completeMethod="#{beanProduto.completaTipoUnidade}"
+					var="tipUnidade" itemLabel="#{tipUnidade.nome}"
+					itemValue="#{tipUnidade}" converter="tipoConverter">
+					<p:ajax event="itemSelect"
+						listener="#{beanProduto.handleSelectTpUnidade}" />
+					<p:ajax event="itemUnselect"
+						listener="#{beanProduto.handleUnSelectTpUnidade}" />
+				</p:autoComplete>
+
 
 				<p:outputLabel for="tamanhoDaUnidade" value="Tamanho da unidade:" />
-				<p:inputText id="tamanhoDaUnidade" required="true"
+				<p:inputNumber id="tamanhoDaUnidade" required="true"
 					label="tamanhoDaUnidade"
 					value="#{beanProduto.produto.tamanhoDaUnidade}">
-				</p:inputText>
-
-
-
+				</p:inputNumber>
 
 				<p:outputLabel value="Selecione os Ingredientes:" />
-				<p:autoComplete value="#{beanProduto.produto.ingredientes}" dropdown="true"
-					completeMethod="#{beanProduto.completaProduto}" var="produto"
-					itemLabel="#{produto.nome}" itemValue="#{produto}"
+				<p:autoComplete value="#{beanProduto.produto.ingredientes}"
+					dropdown="true" completeMethod="#{beanProduto.completaProduto}"
+					var="produto" itemLabel="#{produto.nome}" itemValue="#{produto}"
 					converter="produtoConverter" multiple="true">
 					<p:ajax event="itemSelect" listener="#{beanProduto.handleSelect}" />
-					<p:ajax event="itemUnselect" listener="#{beanProduto.handleUnSelect}" />
+					<p:ajax event="itemUnselect"
+						listener="#{beanProduto.handleUnSelect}" />
 				</p:autoComplete>
+
+				<h:outputText value="Produto Comercializavel: " />
+				<p:selectBooleanButton id="value"
+					value="#{beanProduto.produto.comercializavel}" onLabel="SIM"
+					offLabel="NÃO" onIcon="ui-icon-check" offIcon="ui-icon-close"
+					style="width:100px">
+				</p:selectBooleanButton>
+
+				<h:outputText value="Produto com restricao de idade: " />
+				<p:selectBooleanButton id="value2"
+					value="#{beanProduto.produto.maiorIdade}" onLabel="SIM"
+					offLabel="NÃO" onIcon="ui-icon-check" offIcon="ui-icon-close"
+					style="width:100px">
+				</p:selectBooleanButton>
+
+				<h:outputText value="Produto com controle de Estoque: " />
+				<p:selectBooleanButton id="value3"
+					value="#{beanProduto.produto.controladoEstoque}" onLabel="SIM"
+					offLabel="NÃO" onIcon="ui-icon-check" offIcon="ui-icon-close"
+					style="width:100px">
+				</p:selectBooleanButton>
+
+
+
+				<p:outputLabel for="valorVenda" value="Valor unitario da venda:" />
+				<p:inputNumber id="valorVenda" label="preco"
+					value="#{beanProduto.produto.valorVenda}" symbol=" R$"
+					symbolPosition="s" decimalSeparator="," thousandSeparator=".">
+				</p:inputNumber>
 			</h:panelGrid>
 
 			<p:commandButton value="Cadastrar" action="#{beanProduto.cadastrar}"
@@ -66,6 +113,16 @@
 		</p:panel>
 	</h:form>
 
+	<script type="text/javascript">
+		function toggle(id) {
+			var element = document.getElementById(id);
+			if (element.style.display == 'block') {
+				element.style.display = 'none';
+			} else {
+				element.style.display = 'block'
+			}
+		}
+	</script>
 
 </body>
 </html>

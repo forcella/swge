@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Relatorio</title>
+</h:head>
+<body>
+	<h:form id="formRelatorioContas">
+		<p:messages id="msgs" showDetail="true" autoUpdate="true"
+			closable="true" />
+		<p:panel id="panel">
+			<p:outputLabel for="datetimeINI" value="Data Inicio:" />
+			<p:calendar id="datetimeINI" value="#{beanRelatorio.dataIni}"
+				pattern="dd/MM/yyyy HH:mm:ss" required="true" /><br></br><br></br>
+
+			<p:outputLabel for="datetimeFIM" value="Data Final:" />
+			<p:calendar id="datetimeFIM" value="#{beanRelatorio.dataFim}"
+				pattern="dd/MM/yyyy HH:mm:ss" required="true" /><br></br><br></br>
+			<p:commandButton value="Buscar" action="#{beanRelatorio.buscarContasPeriodo}"
+						update="conteudo" icon="ui-icon-check" />	
+			
+		</p:panel>
+		<p:panel id="contas" rendered="#{beanRelatorio.painelContas}" >
+
+			<p:layout style="min-width:1000px;min-height:450px;" id="layout">
+				<p:layoutUnit position="west" size="100"
+					minSize="600" maxSize="600">
+					<p:outputLabel value="CONTAS FECHADAS"/><br></br>
+					<p:outputLabel value="Receita Total Bruta do Periodo: R$#{beanRelatorio.totalPago}"/>
+					<p:dataTable id="tableContasFechadas" var="cont" 
+						value="#{beanRelatorio.contasFechadas}" selectionMode="single"
+						selection="#{beanConta.contaSelecionada}" rowKey="#{cont.id}">
+						
+						<p:ajax event="rowSelect" update="conteudo:formRelatorioContas:contaAbertaDetail" oncomplete="PF('contaDialog').show()" />
+						
+
+						
+						<p:column headerText="CLIENTE" filterBy="#{cont.cliente.nome}"
+							sortBy="#{cont.cliente.nome}" filterMatchMode="contains">
+							<h:outputText value="#{cont.cliente.nome}" />
+						</p:column>
+						<p:column headerText="Data Abertura" filterBy="#{cont.data}"
+							sortBy="#{cont.data}" filterMatchMode="contains">
+							<h:outputText value="#{cont.data}" />
+						</p:column>
+						<p:column headerText="Data Fechamento" filterBy="#{cont.dataFechamento}"
+							sortBy="#{cont.dataFechamento}" filterMatchMode="contains">
+							<h:outputText value="#{cont.dataFechamento}" />
+						</p:column>
+						<p:column headerText="TOTAL" style="width:12%">
+							<h:outputText value="#{cont.total}" />
+						</p:column>
+					</p:dataTable>
+				</p:layoutUnit>
+
+				<p:layoutUnit position="center">
+				<p:outputLabel value="CONTAS ABERTAS"/><br></br>
+				<p:outputLabel value="Receita Bruta total em Aberto: R$#{beanRelatorio.totalAPagar}"/>
+					<p:dataTable id="tableContasAbertas" var="cont" 
+						value="#{beanRelatorio.contasAbertas}" selectionMode="single"
+						selection="#{beanConta.contaSelecionada}" rowKey="#{cont.id}">
+						
+						
+						 <p:ajax event="rowSelect" update="conteudo:formRelatorioContas:contaAbertaDetail" oncomplete="PF('contaDialog').show()" />
+						
+						<p:column headerText="CLIENTE" filterBy="#{cont.cliente.nome}"
+							sortBy="#{cont.cliente.nome}" filterMatchMode="contains">
+							<h:outputText value="#{cont.cliente.nome}" />
+						</p:column>
+						<p:column headerText="Data Abertura" filterBy="#{cont.data}"
+							sortBy="#{cont.data}" filterMatchMode="contains">
+							<h:outputText value="#{cont.data}" />
+						</p:column>
+
+						<p:column headerText="TOTAL" style="width:12%">
+							<h:outputText value="#{cont.total}" />
+						</p:column>
+					</p:dataTable>
+
+					<p:dialog header="Informações da Conta" widgetVar="contaDialog"
+						showEffect="fade" hideEffect="fade"  >
+						<p:outputPanel id="contaAbertaDetail" style="text-align:center;">
+							<p:panelGrid columns="2" columnClasses="label,value">
+								<h:outputText value="Nome" />
+								<h:outputText value="#{beanConta.contaSelecionada.cliente.nome}" />
+								
+								<h:outputText value="Numero da Mesa" />
+								<h:outputText value="#{beanConta.contaSelecionada.numMesa}" />
+								
+								<h:outputText value="Codigo do Cartão" />
+								<h:outputText value="#{beanConta.contaSelecionada.cartao.cod}" />
+								
+								<h:outputText value="Data de Abertura" />
+								<h:outputText value="#{beanConta.contaSelecionada.data}" />
+								
+								<h:outputText value="Data de Fechamento" />
+								<h:outputText value="#{beanConta.contaSelecionada.dataFechamento}" />
+								
+								<h:outputText value="Lista de Itens Pedidos" />
+								<p:dataList value="#{beanConta.contaSelecionada.listaDeItemPedio}" var="item" type="ordered">
+							        #{item.produto.nome} - #{item.quantidade}
+							        - R$#{item.valorParcial}
+							    </p:dataList>
+								
+								<h:outputText value="Total da Conta:" />
+								<h:outputText value="R$#{beanConta.contaSelecionada.total}" />
+								
+							</p:panelGrid>
+						</p:outputPanel>
+					</p:dialog>
+					
+				
+				</p:layoutUnit>
+			</p:layout>
+
+		</p:panel>
+	</h:form>
+</body>
+</html>

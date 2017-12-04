@@ -14,33 +14,46 @@
 
 </h:head>
 <body>
-	<h:form id="formCad">
-    <p:panel id="panel" header="Cadastro Cliente" style="witdth:300px">     
-     <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
- 
-        <h:panelGrid columns="2" cellpadding="5">
-            <p:outputLabel for="nome" value="Nome:" />
-            <p:inputText id="nome"  required="true" label="Nome" value="#{beanCliente.cliente.nome}">   
-            </p:inputText>
-            
-            <p:outputLabel for="tipoDocumento" value="Tipo do Documento:" />
-            <p:selectOneRadio id="tipoDocumento" value="#{beanCliente.id}" >
-        		<f:selectItems value="#{beanCliente.tpsDocumento}" var="c" itemLabel="#{c.tipoDocumento}" itemValue="#{c.id}"/>
-    		</p:selectOneRadio>
-            
-            <p:outputLabel for="documento" value="Documento:" />
-            <p:inputText id="documento"  required="true" label="Documento" value="#{beanCliente.cliente.numeroDocumento}">   
-            </p:inputText>
-             
-            
-            <p:outputLabel for="telefone" value="Telefone:" />
-            <p:inputText id="telefone"  required="false" label="telefone" value="#{beanCliente.cliente.telefone}">   
-            </p:inputText> 
-            <p:outputLabel for="email" value="E-Mail:" />
-            <p:inputText id="email"  required="false" label="email" value="#{beanCliente.cliente.email}">   
-            </p:inputText>
- 
-        </h:panelGrid>
+	<h:form id="formCliente">
+		<p:messages id="msgs" showDetail="true" autoUpdate="true"
+			closable="true" />
+		<p:panel id="panel" header="Cadastrar Cliente">
+
+			<h:panelGrid columns="4" cellpadding="5">
+
+				<p:outputLabel for="nome" value="Nome:" />
+				<p:inputText id="nome" required="true" label="Nome"
+					value="#{beanCliente.cliente.nome}" maxlength="100">
+				</p:inputText>
+				<p:outputLabel for="email" value="Email:" />
+				<p:inputText id="email" required="true" label="Email"
+					value="#{beanCliente.cliente.email}" maxlength="100"
+					type="email" requiredMessage="Entre o email"
+					validatorMessage="Email inválido, exemplo: email@servidor.com">
+					<f:validateRegex
+						pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+				</p:inputText>
+				<p:outputLabel for="telefone" value="Telefone:" />
+				<p:inputMask id="telefone"
+					value="#{beanCliente.cliente.telefone}"
+					mask="(99) 9999-9999" />
+				<p:outputLabel value="Documento: "></p:outputLabel>
+				<p:fieldset>
+
+					<p:selectOneRadio id="doc" required="true"
+						value="#{beanCliente.cliente.tipoDocumento}"
+						converter="tipoDocConverter">
+						<f:selectItems value="#{beanCliente.tpsDocumento}"
+							var="tipoDoc" itemLabel="#{tipoDoc.tipoDocumento}"
+							itemValue="#{tipoDoc}" />
+					</p:selectOneRadio>
+					<p:outputLabel for="numDoc" value="Número: " />
+					<p:inputText id="numDoc" type="number"
+						value="#{beanCliente.cliente.numeroDocumento}"
+						required=" true"></p:inputText>
+				</p:fieldset>
+
+			</h:panelGrid>
  
         <p:commandButton value="Cadastrar" action="#{beanCliente.cadastrar}" update="panel" icon="ui-icon-check" />
         <p:commandButton value="Limpar" action="#{beanCliente.limpar}"  update="panel" icon="ui-icon-check" />

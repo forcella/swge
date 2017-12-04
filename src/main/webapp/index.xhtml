@@ -4,42 +4,79 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-<h:head>
-	<style>
-body {
-	background-color: #708090
-}
 
-.titulo {
-	text-align: center;
-	font-size: 40px;
-}
-</style>
+<h:head>
+	<title>Login</title>
+	<style>
+		#panel .ui-fieldset, .ui-fieldset .ui-fieldset-legend {
+  			
+  			
+  			background-color:#F2F1E5;
+  			border: 4px solid #F2F1E5;
+  			background-image:none;
+  			background: none;
+  			
+		font-size: 400%;
+		}
+	</style>
+
 </h:head>
-<body>
-	<p:outputLabel value="SWGE" />
-	<br></br>
-	<p:outputLabel value="SISTEMA DE GERENCIAMENTO DE ESTEBELECIMENTOS" />
+<body style="background-color: #F2F1E5">
+
 	<h:form>
-		<p:panel id="panel" header="Logar" style="width:300px">
-			<p:messages id="msgs" />
-			<h:panelGrid columns="3" cellpadding="5">
-				<p:outputLabel for="login" value="Login:" />
-				<p:inputText id="login" required="true" label="Login"
-					value="#{beanLogin.usuario.login}">
-				</p:inputText>
-				<p:message for="login" display="icon" />
-				<p:outputLabel for="senha" value="Senha:" />
-				<p:inputText id="senha" label="Senha" required="true"
-					value="#{beanLogin.usuario.senha}">
-				</p:inputText>
-				<p:message for="senha" id="msgLogin" display="icon" />
+
+		<p:fieldset legend="Login" id="panel"
+			style="background-color:#F2F1E5;margin: 5% auto; max-width:45%;min-width:20%;
+				border-radius: 50px 50px 50px 50px;border: 4px dashed gray 
+				">
+
+
+			<h:panelGrid columns="2">
+				<h:panelGrid>
+					<h:panelGrid columns="3" cellpadding="5">
+						<p:outputLabel for="login" value="LOGIN"
+							style="color:#A58154; font-weight: bold;" />
+						<p:inputText id="login" required="true" label="Login"
+							value="#{beanLogin.usuario.login}">
+
+						</p:inputText>
+						<p:message for="login" display="icon" />
+
+						<p:outputLabel for="senha" value="SENHA"
+							style="color:#A58154; font-weight: bold;" />
+						<p:inputText id="senha" label="Senha" required="true"
+							value="#{beanLogin.usuario.senha}" type="password">
+						</p:inputText>
+						<p:message for="senha" id="msgLogin" display="icon" />
+
+
+					</h:panelGrid>
+					<h:panelGrid columns="2">
+
+						<h:commandLink id="logar" actionListener="#{beanLogin.logar}">
+							<h:graphicImage value="/img/btn-logar.png" style="width:80%"></h:graphicImage>
+						</h:commandLink>
+						<h:commandLink actionListener="#{beanLogin.limparCampos}">
+							<h:graphicImage value="/img/btn-limpar.png" style="width:80%"></h:graphicImage>
+						</h:commandLink>
+						<p:defaultCommand target="logar" />
+					</h:panelGrid>
+					<h:panelGrid width="300" style="text-align: center;">
+						<p:outputLabel value="Seja Bem Vindo(a)"></p:outputLabel>
+					</h:panelGrid>
+
+				</h:panelGrid>
+				<h:panelGrid width="500">
+					<h:graphicImage value="/img/swge-logo.png" style="width:50%"></h:graphicImage>
+					<p:outputLabel value="Sistema Web Gerencial para Estabelecimentos" style="font-size:70%"></p:outputLabel>
+				</h:panelGrid>
+
 			</h:panelGrid>
-			<p:commandButton value="Entrar" action="#{beanLogin.logar}"
-				update="panel" icon="ui-icon-check" />
-			<p:commandButton value="Limpar" action="#{beanLogin.deslogar}"
-				update="panel" icon="ui-icon-check" />
-		</p:panel>
+			<h:panelGrid width="500">
+				<p:messages id="msgs" />
+			</h:panelGrid>
+
+		</p:fieldset>
 	</h:form>
 </body>
 </html>

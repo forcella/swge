@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body >
+	<h:form id="formPdv">
+		<p:panel header="Ponto de venda" id="pdv">
+			<p:messages id="msgs" showDetail="true" autoUpdate="true"
+				closable="true" />
+				
+			<p:panel style="border:none">
+						<p:outputLabel for="clienteAutoC" value="Conta: "></p:outputLabel>
+						
+						<p:autoComplete id="clienteAutoC" value="#{beanPdv.cartao}"
+							dropdown="true" completeMethod="#{beanPdv.completaCartao}"
+							var="card" itemLabel="#{card.cod != 0 ? card.cod : 'Balcão'}" itemValue="#{card}"
+							converter="cartaoConverter" size="5"> 
+						
+							<p:ajax event="itemSelect" listener="#{beanPdv.handleSelect}" update="conteudo:formPdv:pdv"/>
+							<p:ajax event="itemUnselect" 
+								listener="#{beanPdv.handleUnSelect}" />
+						</p:autoComplete>
+					</p:panel>
+				
+			<p:panelGrid columns="2" id="dadoss" rendered="#{beanPdv.visivel}">
+					
+				<p:panelGrid columns="2" id="dados">
+				
+					<f:facet name="header">
+						<p:outputPanel>
+							<h:outputText value="PRODUTO" />
+							<!-- <p:inputText id="globalFilter" onkeyup="PF('prodsTable').filter()" style="width:150px" placeholder=""/> -->
+						</p:outputPanel>
+					</f:facet>
+
+					<p:outputLabel value="Produto:"></p:outputLabel>
+					<p:outputLabel value="#{beanPdv.produtoSelecionado.nome}"></p:outputLabel>
+
+
+					<p:outputLabel value="Valor R$:"></p:outputLabel>
+					<p:outputLabel value="#{beanPdv.produtoSelecionado.valorVenda}">
+						<f:convertNumber currencyCode="BRL"></f:convertNumber>
+					</p:outputLabel>
+
+
+					<p:outputLabel for="qtdProd" value="Quantidade:"></p:outputLabel>
+					<p:inputText id="qtdProd" value="#{beanPdv.quantidade}"
+						maxlength="2" type="number"  size="5">
+
+						<f:convertNumber integerOnly="true" />
+
+					</p:inputText>
+
+					<p:outputLabel for="obs" value="Observação:"></p:outputLabel>
+					<p:inputText id="obs" value="#{beanPdv.obs}" type="text">
+					</p:inputText>
+				<p:commandButton value="Lançar" action="#{beanPdv.lancarPedido}"
+				update="conteudo" icon="ui-icon-check" />
+				</p:panelGrid>
+
+
+
+				<p:dataTable id="tableProdLancar" var="prod"
+					value="#{beanPdv.listaProdutosDiponiveis}" widgetVar="prodsTable"
+					multiViewState="true" rows="10" paginator="true"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15,25,50" selectionMode="single"
+					selection="#{beanPdv.produtoSelecionado}" rowKey="#{prod.id}"
+					emptyMessage="Não foram encontrados produtos referentes a pesquisa"
+					filteredValue="#{beanProduto.listaProdutosSelecionados}">
+
+					<p:ajax event="rowSelect" update="conteudo:formPdv:dados" />
+
+					<f:facet name="header">
+						<p:outputPanel>
+							<h:outputText value="SELECIONE O PRODUTO" />
+						</p:outputPanel>
+					</f:facet>
+
+					<p:column headerText="Produto" filterBy="#{prod.nome}"
+						sortBy="#{prod.nome}" filterMatchMode="contains" style="width:25%">
+						<h:outputText value="#{prod.nome}" />
+					</p:column>
+
+					<p:column headerText="Cod" style="width:15%"
+						filterBy="#{prod.codsBarras}" sortBy="#{prod.codsBarras}"
+						filterMatchMode="contains">
+						<h:outputText value="#{prod.codsBarras}" />
+					</p:column>
+
+					
+					<p:column headerText="Categoria" style="width:18%"
+						filterBy="#{prod.categoria.categoria}"
+						sortBy="#{prod.categoria.categoria}" filterMatchMode="exact">
+						<f:facet name="filter">
+							<p:selectOneMenu onchange="PF('prodsTable').filter()"
+								style="width:100px;">
+								<f:selectItem itemLabel="Selecione" itemValue="#{null}"
+									noSelectionOption="true" />
+								<f:selectItems value="#{beanProduto.categorias}" />
+							</p:selectOneMenu>
+						</f:facet>
+						<h:outputText value="#{prod.categoria.categoria}" />
+					</p:column>
+					
+					<p:column headerText="Unidade" style="width:10%">
+						<h:outputText
+							value="#{prod.tamanhoDaUnidade} #{prod.tipoUnidade.nome}" />
+					</p:column>
+					
+					
+					<p:column headerText="Valor de Venda"  style="width:15%">
+						<h:outputText value="#{prod.valorVenda}">
+							<f:convertNumber currencyCode="BRL"></f:convertNumber>
+						</h:outputText>
+					</p:column>
+				</p:dataTable>
+			</p:panelGrid>
+			
+				<br></br>
+		<br></br>
+			
+			<p:panel header="PEDIDO"  id="panelPedido" rendered="#{beanPdv.pedvisivel}">
+				
+			<hr></hr>
+			
+			
+				<p:dataTable id="tablePedido" var="item"
+					value="#{beanPdv.itensPedido}" reflow="true" rows="6" paginator="true">
+	
+					<p:column headerText="Produto" style="width:30%%" >
+						<h:outputText
+							value="#{item.produto.nome} #{item.produto.tamanhoDaUnidade} #{item.produto.tipoUnidade.nome}s" />
+					</p:column>
+					
+					<p:column headerText="Qtd" style="width:10%">
+						<h:outputText value="#{item.quantidade}" />
+					</p:column>
+					
+					<p:column headerText="Valor" style="width:20%">
+						<h:outputText value="#{item.valorParcial}" />
+					</p:column>
+					<p:column headerText="Observação" style="width:30%">
+						<h:outputText value="#{item.obs}" />
+					</p:column>
+				</p:dataTable>
+				<br></br>
+				<p:commandButton value="Fechar pedido" action="#{beanPdv.fecharPedido}"
+				update="conteudo" icon="ui-icon-check" />
+				<p:commandButton value="Cancelar pedido" action="#{beanPdv.cancelarPedido}"
+				update="conteudo" icon="ui-icon-delete" />
+			</p:panel>
+		</p:panel>
+	</h:form>
+
+</body>
+</html>
